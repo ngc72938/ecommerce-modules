@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### database ###
-/mariadb-docker/*
+/mariadb-docker/db/data/**
