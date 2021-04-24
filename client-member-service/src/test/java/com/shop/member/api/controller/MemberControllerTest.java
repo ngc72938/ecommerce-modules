@@ -55,7 +55,7 @@ class MemberControllerTest {
 
         String result = mockMvc.perform(
             MockMvcRequestBuilders
-                .post("/client/member/create")
+                .post("/member/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(memberJson)
         ).andReturn().getResponse().getContentAsString();
@@ -77,7 +77,7 @@ class MemberControllerTest {
 
         String result = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .post("/client/member/token")
+                        .post("/member/token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tokenJsonString)
         ).andReturn().getResponse().getContentAsString();

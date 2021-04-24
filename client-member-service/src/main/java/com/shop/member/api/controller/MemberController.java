@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/client/member")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
