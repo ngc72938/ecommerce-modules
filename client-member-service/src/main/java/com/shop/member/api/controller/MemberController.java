@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,7 @@ public class MemberController {
 
         var savedMember = memberService.save(clientMember);
 
-        return new CustomResponseEntity(savedMember).getResponse();
+        return new CustomResponseEntity(savedMember, HttpStatus.OK).getResponse();
     }
 
     @ApiOperation(value = "일반 로그인", notes = "일반 회원 로그인", response = String.class)
@@ -57,6 +58,6 @@ public class MemberController {
         String token = jwtTokenProvider.createToken(tokenDTO.getEmail(), member.getId(), (List<Role>) member.getAuthorities());
         response.setHeader("Authorization", token);
 
-        return new CustomResponseEntity(member).getResponse();
+        return new CustomResponseEntity(member, HttpStatus.OK).getResponse();
     }
 }

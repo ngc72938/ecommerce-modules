@@ -6,15 +6,19 @@ import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
 
 public class CustomResponseEntity {
-    private final HashMap<String, Object> resultMap = new HashMap<>();
+    private HashMap<String, Object> resultMap;
 
-    private final Object result;
+    private Object result;
 
-    public CustomResponseEntity(Object result){
+    private HttpStatus httpStatus;
+
+    public CustomResponseEntity(Object result, HttpStatus httpStatus){
         this.result = result;
+        this.httpStatus = httpStatus;
     }
     public ResponseEntity<HashMap<String, Object>> getResponse(){
-        resultMap.put("payload", result);
+        resultMap = new HashMap<>();
+        resultMap.put("data", result);
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 }

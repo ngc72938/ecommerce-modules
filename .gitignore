@@ -38,3 +38,4 @@ out/
 
 ### database ###
 /mariadb-docker/db/data/**
+/mariadb-docker/db/db/data/**

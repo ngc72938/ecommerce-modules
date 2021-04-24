@@ -64,8 +64,8 @@ class MemberControllerTest {
 
         log.info("result ::"+resultMap.entrySet().toString());
 
-        Assertions.assertNotEquals("0", resultMap.get("payload").get("dta"));
-        Assertions.assertEquals("test@test.com", resultMap.get("payload").get("email"));
+        Assertions.assertNotEquals("0", resultMap.get("data").get("dta"));
+        Assertions.assertEquals("test@test.com", resultMap.get("data").get("email"));
 
     }
 
@@ -86,7 +86,7 @@ class MemberControllerTest {
 
         log.info("result ::"+resultMap.entrySet().toString());
 
-        Assertions.assertNotEquals(0, resultMap.get("payload").size());
+        Assertions.assertNotEquals(0, resultMap.get("data").size());
 
     }
 }
