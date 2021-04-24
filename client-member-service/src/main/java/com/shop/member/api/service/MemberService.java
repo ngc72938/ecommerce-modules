@@ -9,4 +9,6 @@ public interface MemberService {
     ClientMember save(ClientMember clientMember);
 
     ClientMember memberLogin(TokenDTO tokenDTO);
+
+    ClientMember findByEmail(String email);
 }

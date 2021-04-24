@@ -42,4 +42,11 @@ public class MemberServiceImpl implements MemberService {
 
         return clientMember;
     }
+
+    @Override
+    public ClientMember findByEmail(String email) {
+        return clientMemberRepository.findByEmail(email).orElseGet(ClientMember::new);
+    }
+
+
 }

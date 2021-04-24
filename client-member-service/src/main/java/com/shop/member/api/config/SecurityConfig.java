@@ -49,7 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
                 .antMatchers(
                         "/member/create",
-                        "/member/token"
+                        "/member/token",
+                        "/member/check/email"
                 ).permitAll()
                 .anyRequest().hasRole("CLIENT")
                 .and()

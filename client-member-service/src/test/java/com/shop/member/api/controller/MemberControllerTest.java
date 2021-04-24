@@ -1,8 +1,10 @@
 package com.shop.member.api.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shop.member.api.dto.member.MemberDto;
+import com.shop.member.api.dto.member.CheckEmailDTO;
+import com.shop.member.api.dto.member.MemberDTO;
 import com.shop.member.api.dto.member.TokenDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
@@ -14,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 
@@ -31,8 +32,10 @@ class MemberControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final MemberDto memberDto =
-            MemberDto.builder()
+    private String authToken = "";
+
+    private final MemberDTO memberDto =
+            MemberDTO.builder()
                     .email("test@test.com")
                     .password("test")
                     .mobile("01012345678")
@@ -64,7 +67,6 @@ class MemberControllerTest {
 
         log.info("result ::"+resultMap.entrySet().toString());
 
-        Assertions.assertNotEquals("0", resultMap.get("data").get("dta"));
         Assertions.assertEquals("test@test.com", resultMap.get("data").get("email"));
 
     }
@@ -80,13 +82,47 @@ class MemberControllerTest {
                         .post("/member/token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tokenJsonString)
+        ).andReturn().getResponse().getHeader("Authorization");
+
+        log.info("result ::"+result);
+
+        Assertions.assertNotNull(result);
+
+        authToken = result;
+    }
+
+    @Test
+    @DisplayName("회원 정보 가져오기")
+    void getUserInformation() throws Exception {
+        getToken();
+
+        String result = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .post("/member/information")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization",authToken)
         ).andReturn().getResponse().getContentAsString();
 
         HashMap<String, HashMap<String,String>> resultMap = objectMapper.readValue(result, HashMap.class);
 
         log.info("result ::"+resultMap.entrySet().toString());
 
-        Assertions.assertNotEquals(0, resultMap.get("data").size());
+        Assertions.assertEquals("test@test.com", resultMap.get("data").get("email"));
+    }
 
+    @Test
+    @DisplayName("사용 가능한 이메일 체크")
+    void check_duplicate_email() throws Exception {
+        var checkEmailDTO = new CheckEmailDTO("test1@test.com");
+        String jsonString = objectMapper.writeValueAsString(checkEmailDTO);
+
+        String result = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .post("/member/check/email")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonString)
+        ).andReturn().getResponse().getContentAsString();
+
+        log.info("result ::"+result);
     }
 }

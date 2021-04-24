@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "진행중인 프로모션 리스트 DTO")
-public class MemberDto {
+public class MemberDTO {
     @ApiModelProperty(value = "email", example = "test@imform.co.kr", required = true)
     @NotBlank
     @Email
