@@ -1,0 +1,17 @@
+server:
+  port: 8100
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/shop
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: root
+  jpa:
+    open-in-view: true
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  jwt:
+    secret: testSecretKey
