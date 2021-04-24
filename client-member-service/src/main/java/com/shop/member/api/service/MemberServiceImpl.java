@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public ClientMember memberLogin(TokenDTO tokenDTO) {
-        ClientMember clientMember = clientMemberRepository.findByEmail(tokenDTO.getEmail()).orElseGet(ClientMember::new);
+        var clientMember = clientMemberRepository.findByEmail(tokenDTO.getEmail()).orElseGet(ClientMember::new);
         clientMember.verifyExist();
         clientMember.verifyUseYn();
 

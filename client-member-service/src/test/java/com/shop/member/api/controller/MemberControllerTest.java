@@ -35,7 +35,7 @@ class MemberControllerTest {
             MemberDto.builder()
                     .email("test@test.com")
                     .password("test")
-                    .mobile("9999999999")
+                    .mobile("01012345678")
                     .gender("male")
                     .age(20)
                     .helloDealServiceYn("Y")

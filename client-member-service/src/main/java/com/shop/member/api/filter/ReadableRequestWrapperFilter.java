@@ -1,14 +1,12 @@
 package com.shop.member.api.filter;
 
 
-import jdk.jfr.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -17,7 +15,10 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,7 +32,7 @@ public class ReadableRequestWrapperFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        ReadableRequestWrapper wrapper = new ReadableRequestWrapper((HttpServletRequest) request);
+        var wrapper = new ReadableRequestWrapper((HttpServletRequest) request);
         chain.doFilter(wrapper, response);
     }
 
@@ -61,16 +62,15 @@ public class ReadableRequestWrapperFilter implements Filter {
                 if (StringUtils.isEmpty(collect)) { // body 가 없을경우 로깅 제외
                     return;
                 }
-                JSONParser jsonParser = new JSONParser();
+                var jsonParser = new JSONParser();
                 Object parse = jsonParser.parse(collect);
                 if (parse instanceof JSONArray) {
-                    JSONArray jsonArray = (JSONArray) jsonParser.parse(collect);
+                    var jsonArray = (JSONArray) jsonParser.parse(collect);
                     setParameter("requestBody", jsonArray.toJSONString());
                 } else {
-                    JSONObject jsonObject = (JSONObject) jsonParser.parse(collect);
-                    Iterator iterator = jsonObject.keySet().iterator();
-                    while (iterator.hasNext()) {
-                        String key = (String) iterator.next();
+                    var jsonObject = (JSONObject) jsonParser.parse(collect);
+                    for (Object o : jsonObject.keySet()) {
+                        String key = (String) o;
                         setParameter(key, jsonObject.get(key).toString().replace("\"", "\\\""));
                     }
                 }
@@ -122,7 +122,7 @@ public class ReadableRequestWrapperFilter implements Filter {
 
         @Override
         public ServletInputStream getInputStream() {
-            final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.rawData);
+            final var byteArrayInputStream = new ByteArrayInputStream(this.rawData);
 
             return new ServletInputStream() {
                 @Override

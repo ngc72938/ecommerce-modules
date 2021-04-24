@@ -41,9 +41,9 @@ public class MemberController {
     @ApiResponses(value = {@ApiResponse(code = HttpURLConnection.HTTP_OK, message = "회원 가입 완료", response = String.class)})
     @PostMapping(path = "/create", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<HashMap<String, Object>> createClientMember(@RequestBody @Valid MemberDto memberDto){
-        ClientMember clientMember = modelMapper.map(memberDto, ClientMember.class);
+        var clientMember = modelMapper.map(memberDto, ClientMember.class);
 
-        ClientMember savedMember = memberService.save(clientMember);
+        var savedMember = memberService.save(clientMember);
 
         return new CustomResponseEntity(savedMember).getResponse();
     }
